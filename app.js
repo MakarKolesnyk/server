@@ -1,24 +1,25 @@
 const express = require("express");
 const app = express();
 
-app.get("/products/:id", (req, res) => {
-  const request = `
-  method: ${req.method},
-  path ${req.path},
-  query ${JSON.stringify(req.query)},
-  url: ${req.url}, 
-  hostmname: ${req.hostname},
-  params: ${JSON.stringify(req.params)},
-  key: ${req.params.id},
-  ip: ${req.ip}`;
-  res.end(request);
-});
-
-app.get("/users/:id", (req, res) => {
-  const request = `
-  url: ${req.url}, 
-  key: ${req.params.id}`;
-  res.end(request);
-});
+app.get(
+  "/",
+  (req, res, next) => {
+    console.log("first");
+    next();
+  },
+  (req, res, next) => {
+    console.log("second");
+    req.test *= 4;
+    if (true) {
+      next();
+    } else {
+      res.send("stop");
+    }
+  },
+  (req, res, next) => {
+    console.log("third");
+    res.status(200).send("finish, " + req.test);
+  },
+);
 
 module.exports = app;
