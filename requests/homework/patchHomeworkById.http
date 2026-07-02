@@ -1,0 +1,6 @@
+PATCH http://localhost:3000/homeworks/6a45bcbd54723a3cca47903a HTTP/1.1
+Content-Type: application/json
+
+{
+    "deadline": "2027-12-20"
+}

@@ -1,25 +1,17 @@
 const express = require("express");
+const userRouter = require("./routes/user.router");
+const homeworkRouter = require("./routes/homework.router");
+
 const app = express();
 
-app.get(
-  "/",
-  (req, res, next) => {
-    console.log("first");
-    next();
-  },
-  (req, res, next) => {
-    console.log("second");
-    req.test *= 4;
-    if (true) {
-      next();
-    } else {
-      res.send("stop");
-    }
-  },
-  (req, res, next) => {
-    console.log("third");
-    res.status(200).send("finish, " + req.test);
-  },
-);
+app.use(express.json());
+
+app.use("/users", userRouter);
+app.use('/homeworks', homeworkRouter)
+
+app.use((err, req, res, next) => {
+  console.log(err.message);
+  res.status(500).send({ errors: [err.message] });
+});
 
 module.exports = app;
